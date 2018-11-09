@@ -1,0 +1,22 @@
+apply plugin: 'java-library'
+
+//repositories {
+//    maven {
+//        url "http://central.maven.org/maven2"
+//    }
+////    mavenCentral()
+//}
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+dependencies {
+    implementation group: 'net.sourceforge.htmlcleaner', name: 'htmlcleaner', version: '2.9'
+    implementation group: 'org.jsoup', name: 'jsoup', version: '1.10.3'
+    implementation group: 'javax.xml', name: 'jaxp-api', version: '1.4.2'
+}

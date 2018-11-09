@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="delegate_container" type="id" />
+
+    <item name="tag_view_hold" type="id" />
+
+</resources>
