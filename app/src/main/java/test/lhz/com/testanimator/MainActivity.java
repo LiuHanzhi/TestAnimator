@@ -32,5 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
         int pro = Runtime.getRuntime().availableProcessors();
         System.out.println("pro:"+pro);
+
+
+        //TEST v1.1
     }
 }
