@@ -32,3 +32,10 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
 
 }
+
+
+task upload(type: Exec) {
+    commandLine '../tttt/git_sparse.sh'
+//    executable 'sh'
+//    args "-c","../tttt/git_sparse.sh $jenkinsJobName $jenkinsBuild"
+}
