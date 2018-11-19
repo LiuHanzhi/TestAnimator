@@ -18,5 +18,5 @@ targetCompatibility = "1.8"
 dependencies {
     implementation group: 'net.sourceforge.htmlcleaner', name: 'htmlcleaner', version: '2.9'
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.10.3'
-    implementation group: 'javax.xml', name: 'jaxp-api', version: '1.4.2'
+//    implementation group: 'javax.xml', name: 'jaxp-api', version: '1.4.2'
 }

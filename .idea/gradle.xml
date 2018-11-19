@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/EffectiveJava" />
             <option value="$PROJECT_DIR$/TestJava" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/looplayout" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
