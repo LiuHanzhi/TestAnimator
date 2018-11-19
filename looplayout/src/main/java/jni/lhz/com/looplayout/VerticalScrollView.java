@@ -7,6 +7,8 @@ import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 /**
@@ -14,17 +16,11 @@ import android.widget.TextView;
  * @version 2018/11/19
  * @copyright copyright(2011) weibo.com all rights reserved
  */
-public class VerticalScrollView extends NestedScrollView {
+public class VerticalScrollView extends FrameLayout {
 
     private final int max = 5;
 
     private ViewGroup main;
-
-    private TextView mOneTextView;
-
-    private TextView mTwoTextView;
-
-    private TextView mThreeTextView;
 
     private Runnable runnable;
 
@@ -50,7 +46,6 @@ public class VerticalScrollView extends NestedScrollView {
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
-        scrollBy(0, mOneTextView.getMeasuredHeight());
         fillData();
 
         start();
@@ -67,29 +62,53 @@ public class VerticalScrollView extends NestedScrollView {
         setVerticalScrollBarEnabled(false);
         LayoutInflater.from(getContext()).inflate(R.layout.vertical_scroll_view, this);
         main = findViewById(R.id.main);
-        mOneTextView = findViewById(R.id.one);
-        mTwoTextView = findViewById(R.id.two);
-        mThreeTextView = findViewById(R.id.three);
 
 
         runnable = new Runnable() {
             @Override
             public void run() {
-                autoIncrease();
+                forwardPage();
             }
         };
     }
 
     private void fillData() {
         String curText = data[curPos];
-        String preText = curPos == 0 ? data[data.length - 1] : data[curPos - 1];
+//        String preText = curPos == 0 ? data[data.length - 1] : data[curPos - 1];
+//        String nextText = curPos == data.length - 1 ? data[0] : data[curPos + 1];
+//        TextView behind = (TextView) main.getChildAt(0);
+        TextView front = (TextView) main.getChildAt(1);
+        front.setText(curText);
+//        behind.setText(preText);
+    }
+
+    /**
+     * 向前翻页
+     */
+    private void forwardPage(){
         String nextText = curPos == data.length - 1 ? data[0] : data[curPos + 1];
-        TextView one = (TextView) main.getChildAt(0);
-        TextView two = (TextView) main.getChildAt(1);
-        TextView three = (TextView) main.getChildAt(2);
-        one.setText(preText);
-        two.setText(curText);
-        three.setText(nextText);
+        final TextView behind = (TextView) main.getChildAt(0);
+        behind.setText(nextText);
+
+        TextView front = (TextView) main.getChildAt(1);
+        AnimationUtils.doForwardAnimation(front, behind, new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                behind.bringToFront();
+                autoIncrease();
+                postDelayed(runnable, 3000);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
     }
 
     private synchronized void autoIncrease() {
