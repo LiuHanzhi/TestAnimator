@@ -3,6 +3,7 @@ package test.lhz.com.testanimator.focus;
 import android.content.Context;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -51,7 +52,8 @@ public class MyLinearLayout extends LinearLayout implements View.OnFocusChangeLi
 
     @Override
     public boolean requestFocus(int direction, Rect previouslyFocusedRect) {
-        Log.e("lhz", "direction..." + direction);
+        Log.e("lhz", getTag() + ":" + "direction..." + direction);
+        Log.e("lhz", getTag() + ":" + "hasFocus():" + hasFocus());
         if (null == getFocusedChild()) {
             //请求默认焦点
             requestDefaultFocus();
@@ -60,47 +62,44 @@ public class MyLinearLayout extends LinearLayout implements View.OnFocusChangeLi
     }
 
     private void requestDefaultFocus() {
-        Log.e("lhz", "requestDefaultFocus");
+        Log.e("lhz", getTag() + ":" + "requestDefaultFocus");
         final View view = getChildAt(0);
         if (view != null) {
             if (!hasFocus()) {
                 //模拟获取焦点
-                setDescendantFocusability(true);
+                setDescendantFocusability(FOCUS_BEFORE_DESCENDANTS);
             }
-            Log.e("lhz", "requestDefaultFocus--first child request focus");
-            view.post(new Runnable() {
-                @Override
-                public void run() {
-                    view.requestFocus();
-                }
-            });
+            Log.e("lhz", getTag() + ":" + "requestDefaultFocus--first child request focus");
+            view.requestFocus();
 
-        }
-    }
-
-    private void setDescendantFocusability(boolean gainFocus) {
-        Log.e("lhz", "gainFocus=" + gainFocus);
-        if (gainFocus) {
-            setDescendantFocusability(FOCUS_BEFORE_DESCENDANTS);
-        } else {
-            setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
         }
     }
 
     @Override
     public void onFocusChange(View v, final boolean hasFocus) {
-        Log.e("lhz", "onFocusChange:view--" + v.getTag() + ",hasFocus:" + hasFocus);
+        Log.e("lhz", getTag() + ":" + "onFocusChange:view--" + v.getTag() + ",hasFocus:" + hasFocus);
         if (!hasFocus) {
             post(new Runnable() {
                 @Override
                 public void run() {
-                    Log.e("lhz", "hasFocus():" + hasFocus());
+                    Log.e("lhz", getTag() + ":" + "hasFocus():" + hasFocus());
                     if (!hasFocus()) {
                         //模拟失去焦点
-                        setDescendantFocusability(false);
+                        onFocusChanged(true, FOCUS_DOWN, null);
                     }
                 }
             });
         }
+    }
+
+    @Override
+    protected void onFocusChanged(boolean gainFocus, int direction, @Nullable Rect previouslyFocusedRect) {
+        Log.e("lhz", "gainFocus=" + gainFocus + " hasFocus=" + hasFocus() + " direction=" + direction);
+        if (gainFocus) {
+            setDescendantFocusability(FOCUS_BEFORE_DESCENDANTS);
+        } else {
+            setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
+        }
+        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
     }
 }
