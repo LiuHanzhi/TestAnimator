@@ -20,11 +20,7 @@
 
         </activity>
         <activity android:name=".dispatchKeyEvent.FocusActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".rxjava.backpressure.BackPressureActivity">
 
@@ -38,6 +34,13 @@
 
         <activity android:name=".alarmclock.MainActivity">
 
+        </activity>
+        <activity android:name=".autoFocus.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

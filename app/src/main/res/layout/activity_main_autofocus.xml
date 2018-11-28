@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".MainActivity">
+
+    <test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:tag="ITEM_LEFT">
+
+        <test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:tag="ITEM_LEFT_TOP">
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="#ff0" />
+
+        <test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:tag="ITEM_LEFT_BOTTOM">
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout>
+
+    </test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout>
+
+    <View
+        android:layout_width="5dp"
+        android:layout_height="match_parent"
+        android:background="#ff0" />
+
+    <test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:tag="ITEM_RIGHT">
+
+        <test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:tag="ITEM_RIGHT_TOP">
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="#ff0" />
+
+        <test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:tag="ITEM_RIGHT_BOTTOM">
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout>
+
+    </test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout>
+
+</LinearLayout>
