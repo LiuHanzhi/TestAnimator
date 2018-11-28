@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     tools:context=".MainActivity">
 
-    <test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -19,7 +19,9 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:tag="ITEM_LEFT_TOP">
+            android:tag="ITEM_LEFT_TOP"
+            app:block_keycode_left="true"
+            app:block_keycode_up="true">
 
             <include
                 layout="@layout/activity_main_autofocus_button"
@@ -48,7 +50,9 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:tag="ITEM_LEFT_BOTTOM">
+            android:tag="ITEM_LEFT_BOTTOM"
+            app:block_keycode_down="true"
+            app:block_keycode_left="true">
 
             <include
                 layout="@layout/activity_main_autofocus_button"
@@ -67,14 +71,14 @@
 
         </test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout>
 
-    </test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="5dp"
         android:layout_height="match_parent"
         android:background="#ff0" />
 
-    <test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -86,7 +90,9 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:tag="ITEM_RIGHT_TOP">
+            android:tag="ITEM_RIGHT_TOP"
+            app:block_keycode_right="true"
+            app:block_keycode_up="true">
 
             <include
                 layout="@layout/activity_main_autofocus_button"
@@ -114,7 +120,9 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:tag="ITEM_RIGHT_BOTTOM">
+            android:tag="ITEM_RIGHT_BOTTOM"
+            app:block_keycode_down="true"
+            app:block_keycode_right="true">
 
             <include
                 layout="@layout/activity_main_autofocus_button"
@@ -133,6 +141,6 @@
 
         </test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout>
 
-    </test.lhz.com.testanimator.autoFocus.ChildFocusableLinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

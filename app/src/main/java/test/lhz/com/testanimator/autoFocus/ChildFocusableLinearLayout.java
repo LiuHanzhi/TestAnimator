@@ -1,8 +1,10 @@
 package test.lhz.com.testanimator.autoFocus;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.FocusFinder;
@@ -10,6 +12,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.LinearLayout;
+
+import test.lhz.com.testanimator.R;
 
 /**
  * 当焦点移动到当前ViewGroup时，让第一个child获得焦点
@@ -22,31 +26,46 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
 
     protected int mSelectedPosition = -1;
 
-    private View preFocusView;
+    private boolean blockKeycodeLeft;
+
+    private boolean blockKeycodeRight;
+
+    private boolean blockKeycodeDown;
+
+    private boolean blockKeycodeUp;
 
     public ChildFocusableLinearLayout(Context context) {
         super(context);
-        init();
+        init(context, null);
     }
 
     public ChildFocusableLinearLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context, attrs);
     }
 
     public ChildFocusableLinearLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context, attrs);
     }
 
-    private void init() {
-        setChildrenDrawingOrderEnabled(true);
-        setWillNotDraw(true); // 自身不作onDraw处理
-//        setHasFixedSize(true);
-        setOverScrollMode(View.OVER_SCROLL_NEVER);
+    private void init(Context context, AttributeSet attrs) {
+        if (attrs != null) {
+            final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ChildFocusableLinearLayout);
+            blockKeycodeUp = a.getBoolean(R.styleable.ChildFocusableLinearLayout_block_keycode_up, false);
+            blockKeycodeDown = a.getBoolean(R.styleable.ChildFocusableLinearLayout_block_keycode_down, false);
+            blockKeycodeLeft = a.getBoolean(R.styleable.ChildFocusableLinearLayout_block_keycode_left, false);
+            blockKeycodeRight = a.getBoolean(R.styleable.ChildFocusableLinearLayout_block_keycode_right, false);
+            a.recycle();
+        }
 
-        setClipChildren(false);
-        setClipToPadding(false);
+//        setChildrenDrawingOrderEnabled(true);
+//        setWillNotDraw(true); // 自身不作onDraw处理
+////        setHasFixedSize(true);
+//        setOverScrollMode(View.OVER_SCROLL_NEVER);
+//
+//        setClipChildren(false);
+//        setClipToPadding(false);
 
         setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
         setFocusable(true);
@@ -62,7 +81,7 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
 
     private void registerChildFocusChangeListener() {
         int count = getChildCount();
-        Log.e("lhz", "childCount:" + count);
+        Log.e("lhz", "View Tag:" + getTag() + "===" + "childCount:" + count);
         for (int i = 0; i < count; i++) {
             View child = getChildAt(i);
             if (child.isFocusable()) {
@@ -73,8 +92,8 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
 
     @Override
     public boolean requestFocus(int direction, Rect previouslyFocusedRect) {
-        Log.e("lhz", "requestFocus:direction..." + direction);
-        Log.e("lhz", "requestFocus:hasFocus():" + hasFocus());
+        Log.e("lhz", "View Tag:" + getTag() + "===" + "requestFocus:direction..." + direction);
+        Log.e("lhz", "View Tag:" + getTag() + "===" + "requestFocus:hasFocus():" + hasFocus());
         onMyFocusChanged(this, true);
         if (null == getFocusedChild()) {
             //请求默认焦点
@@ -91,16 +110,7 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
      * @param hasFocus 是否获得焦点
      */
     protected void onMyFocusChanged(View view, boolean hasFocus) {
-        Log.e("lhz", "View Tag:" + getTag() + "---hasFocus->" + hasFocus);
-//        if (getParent() instanceof ChildFocusableLinearLayout) {
-//            ((ChildFocusableLinearLayout) getParent()).onMyFocusChanged(this, hasFocus);
-//        } else {
-//            if (!hasFocus) {
-//                preFocusView = view;
-//            } else {
-//                preFocusView = null;
-//            }
-//        }
+        Log.e("lhz", "View Tag:" + getTag() + "===" + "onMyFocusChanged---hasFocus->" + hasFocus);
     }
 
     private void requestDefaultFocus(int direction) {
@@ -142,7 +152,7 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
                 setDescendantFocusability(FOCUS_BEFORE_DESCENDANTS);
             }
 
-            Log.e("lhz", "requestDefaultFocus--child index:" + mSelectedPosition);
+            Log.e("lhz", "View Tag:" + getTag() + "===" + "requestDefaultFocus--child index:" + mSelectedPosition);
 //            view.postDelayed(new Runnable() {
 //                @Override
 //                public void run() {
@@ -155,13 +165,13 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
 
     @Override
     public void onFocusChange(View v, final boolean hasFocus) {
-        Log.e("lhz", "onFocusChange:view--" + v.getTag() + ",hasFocus:" + hasFocus);
-        Log.e("lhz", "onFocusChange:hasFocus():" + hasFocus());
-        View view = findFocus();
-        if (view != null) {
+        Log.e("lhz", "View Tag:" + getTag() + "===" + "onFocusChange:view--" + v.getTag() + ",hasFocus:" + hasFocus);
+        Log.e("lhz", "View Tag:" + getTag() + "===" + "onFocusChange:hasFocus():" + hasFocus());
+//        View view = findFocus();
+        if (hasFocus) {
             for (int i = 0; i < getChildCount(); i++) {
                 View child = getChildAt(i);
-                if (view == child) {
+                if (v == child) {
                     mSelectedPosition = i;
                     break;
                 }
@@ -179,13 +189,22 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         boolean result = super.dispatchKeyEvent(event);
-        Log.e("lhz", "dispatchKeyEvent（）start：result=" + result);
+        Log.e("lhz", "View Tag:" + getTag() + "===" + "dispatchKeyEvent（）start：result=" + result);
         if (!result) {
             switch (event.getAction()) {
                 case KeyEvent.ACTION_DOWN:
-//                    if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT) {
-//                        return true;
-//                    }
+                    if (blockKeycodeUp && event.getKeyCode() == KeyEvent.KEYCODE_DPAD_UP && findNextFocus(keyCode2Direction(event.getKeyCode())) == null) {
+                        return true;
+                    }
+                    if (blockKeycodeDown && event.getKeyCode() == KeyEvent.KEYCODE_DPAD_DOWN && findNextFocus(keyCode2Direction(event.getKeyCode())) == null) {
+                        return true;
+                    }
+                    if (blockKeycodeLeft && event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT && findNextFocus(keyCode2Direction(event.getKeyCode())) == null) {
+                        return true;
+                    }
+                    if (blockKeycodeRight && event.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT && findNextFocus(keyCode2Direction(event.getKeyCode())) == null) {
+                        return true;
+                    }
                     result = handleKeyDown(event.getKeyCode(), event);
                     break;
                 case KeyEvent.ACTION_UP:
@@ -193,7 +212,7 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
                     break;
             }
         }
-        Log.e("lhz", "dispatchKeyEvent（）end：result=" + result);
+        Log.e("lhz", "View Tag:" + getTag() + "===" + "dispatchKeyEvent（）end：result=" + result);
         return result;
     }
 
@@ -218,22 +237,21 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
      */
     private boolean handleKeyDown(int keyCode, KeyEvent event) {
         int direction = keyCode2Direction(keyCode);
-
+        Log.e("lhz", "View Tag:" + getTag() + "===" + "handleKeyDown.direction:" + direction);
         if (direction == -1) {
             return false;
         }
 
         final View nextFocusedView = findNextFocus(direction);
-        Log.e("lhz", "find next foucs view:" + (nextFocusedView == null ? "false" : true));
+        Log.e("lhz", "View Tag:" + getTag() + "===" + "find next foucs view:" + (nextFocusedView == null ? "false" : true));
         if (null != nextFocusedView) {
             for (int i = 0; i < getChildCount(); i++) {
                 if (getChildAt(i) == nextFocusedView) {
-                    Log.e("lhz", "next Focus index:" + i);
+                    mSelectedPosition = i;
+                    Log.e("lhz", "View Tag:" + getTag() + "===" + "next Focus index:" + i);
                     break;
                 }
             }
-            Log.e("lhz", "cur View:" + getClass().getSimpleName());
-            Log.e("lhz", "next Focus:" + nextFocusedView.getClass().getSimpleName());
             nextFocusedView.requestFocus();
             return true;
         } else {
@@ -251,7 +269,7 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
      * @return
      */
     private View findNextFocus(int direction) {
-        return FocusFinder.getInstance().findNextFocus(this, preFocusView != null ? preFocusView : getFocusedChild(), direction);
+        return FocusFinder.getInstance().findNextFocus(this, getFocusedChild(), direction);
     }
 
     /**
