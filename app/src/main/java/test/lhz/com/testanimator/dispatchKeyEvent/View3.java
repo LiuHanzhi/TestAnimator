@@ -38,11 +38,11 @@ public class View3 extends LinearLayout {
 
     @Override
     public boolean requestFocus(int direction, Rect previouslyFocusedRect) {
-        Log.e("lhz","requestFocus");
-        if (getFocusedChild() == null) {
-            Log.e("lhz","getFocusedChild == null");
-            getChildAt(0).requestFocus();
-        }
+        Log.e("lhz","View3.requestFocus");
+//        if (getFocusedChild() == null) {
+//            Log.e("lhz","getFocusedChild == null");
+//            getChildAt(0).requestFocus();
+//        }
         return super.requestFocus(direction, previouslyFocusedRect);
     }
 

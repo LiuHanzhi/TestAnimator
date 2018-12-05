@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:tag="ITEM_LEFT">
+
+        <test.lhz.com.testanimator.autoFocus2.View1
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:tag="ITEM_LEFT_TOP"
+            app:block_keycode_left="true"
+            app:block_keycode_up="true">
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </test.lhz.com.testanimator.autoFocus2.View1>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="#ff0" />
+
+        <test.lhz.com.testanimator.autoFocus2.View1
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:tag="ITEM_LEFT_BOTTOM"
+            app:block_keycode_down="true"
+            app:block_keycode_left="true">
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </test.lhz.com.testanimator.autoFocus2.View1>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="5dp"
+        android:layout_height="match_parent"
+        android:background="#ff0" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:tag="ITEM_RIGHT">
+
+        <test.lhz.com.testanimator.autoFocus2.View1
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:tag="ITEM_RIGHT_TOP"
+            app:block_keycode_right="true"
+            app:block_keycode_up="true">
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </test.lhz.com.testanimator.autoFocus2.View1>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="#ff0" />
+
+        <test.lhz.com.testanimator.autoFocus2.View1
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:tag="ITEM_RIGHT_BOTTOM"
+            app:block_keycode_down="true"
+            app:block_keycode_right="true">
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/activity_main_autofocus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </test.lhz.com.testanimator.autoFocus2.View1>
+
+    </LinearLayout>
+
+</LinearLayout>
