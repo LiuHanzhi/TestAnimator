@@ -21,6 +21,7 @@
         <attr name="block_keycode_right" format="boolean" />
         <attr name="block_keycode_down" format="boolean" />
         <attr name="block_keycode_up" format="boolean" />
+        <attr name="block_descendants" format="boolean" />
     </declare-styleable>
 
 

@@ -1,4 +1,4 @@
-package test.lhz.com.testanimator.autoFocus;
+package test.lhz.com.testanimator.autoFocus3;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -16,13 +16,17 @@ import test.lhz.com.testanimator.R;
 
 
 /**
- * 当焦点移动到当前ViewGroup时，让第一个child获得焦点
+ * 功能：
+ * 1.当焦点移动到当前ViewGroup时，让第一个child获得焦点
+ * 2.设置ViewGroup中获取焦点时，将焦点分发给某个一个子view，使用setSelectPosition方法
+ * 3.如果当前viewGroup获得或者失去焦点，可通过重载onMyFocusChanged得到回调
+ * 4.不要对viewGroup中的子view设置setOnFocusChangeListener，如果想得到子view的焦点监听，通过设置setFocusChangeListener(ChildFocusableLinearLayout.OnFocusChangeListener onChildFocusChangeListener)来监听。
  *
  * @author hanzhi <hanzhi@staff.weibo.com>
  * @version 2018/8/20
  * @copyright copyright(2011) weibo.com all rights reserved
  */
-public class ChildFocusableLinearLayout extends LinearLayout implements View.OnFocusChangeListener {
+public class ChildFocusableLinearLayout extends LinearLayout {
 
     protected int mSelectedPosition = -1;
 
@@ -37,6 +41,10 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
     private OnFocusChangeListener focusChangeListener;
 
     private boolean isViewFocused;
+
+    private boolean hasSetSelection = false;
+
+    private boolean blockDescendants;
 
     public ChildFocusableLinearLayout(Context context) {
         super(context);
@@ -60,6 +68,7 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
             blockKeycodeDown = a.getBoolean(R.styleable.ChildFocusableLinearLayout_block_keycode_down, false);
             blockKeycodeLeft = a.getBoolean(R.styleable.ChildFocusableLinearLayout_block_keycode_left, false);
             blockKeycodeRight = a.getBoolean(R.styleable.ChildFocusableLinearLayout_block_keycode_right, false);
+            blockDescendants = a.getBoolean(R.styleable.ChildFocusableLinearLayout_block_descendants, false);
             a.recycle();
         }
 
@@ -70,10 +79,15 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
 //
 //        setClipChildren(false);
 //        setClipToPadding(false);
-
-        setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
+        if (blockDescendants) {
+            setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
+        }
         setFocusable(true);
         setFocusableInTouchMode(true);
+
+        if (getOrientation() != HORIZONTAL && getOrientation() != VERTICAL) {
+            setOrientation(VERTICAL);
+        }
 
         post(new Runnable() {
             @Override
@@ -83,12 +97,12 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
         });
     }
 
-    private void registerChildFocusChangeListener() {
+    public void registerChildFocusChangeListener() {
         int count = getChildCount();
         for (int i = 0; i < count; i++) {
             View child = getChildAt(i);
             if (child.isFocusable()) {
-                child.setOnFocusChangeListener(ChildFocusableLinearLayout.this);
+                child.setOnFocusChangeListener(onChildFocusChangeListener);
             }
         }
     }
@@ -97,13 +111,22 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
     public boolean requestFocus(int direction, Rect previouslyFocusedRect) {
         Log.e("lhz", "View Tag:" + getTag() + "===" + "requestFocus:direction..." + direction);
         Log.e("lhz", "View Tag:" + getTag() + "===" + "requestFocus:hasFocus():" + hasFocus());
-        onMyFocusChanged(this, true);
+        boolean myFocusChange = onMyFocusChanged(this, true);
+        Log.e("lhz", "View Tag:" + getTag() + "===" + "onMyFocusChanged() return state :" + myFocusChange);
+        if (myFocusChange) {
+            if (blockDescendants) {
+                setDescendantFocusability(FOCUS_BEFORE_DESCENDANTS);
+            }
+            return false;
+        }
         if (null == getFocusedChild()) {
             //请求默认焦点
             requestDefaultFocus(direction);
+        } else {
+            Log.e("lhz", "View Tag:" + getTag() + "===" + "focused child not null");
         }
-        return true;
-//        return false;
+//        return true;
+        return false;
     }
 
     /**
@@ -112,59 +135,107 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
      * @param view     自身view
      * @param hasFocus 是否获得焦点
      */
-    protected void onMyFocusChanged(View view, boolean hasFocus) {
+    private boolean onMyFocusChanged(View view, boolean hasFocus) {
         Log.e("lhz", "View Tag:" + getTag() + "===" + "onMyFocusChanged---isViewFocused->" + hasFocus);
         this.isViewFocused = hasFocus;
         if (focusChangeListener != null) {
-            focusChangeListener.onViewFocusChange(this, hasFocus);
+            return focusChangeListener.onMyFocusChange(this, hasFocus);
         }
+        return false;
     }
 
     public boolean isViewFocused() {
         return isViewFocused;
     }
 
+    public boolean isBlockKeycodeLeft() {
+        return blockKeycodeLeft;
+    }
+
+    public void setBlockKeycodeLeft(boolean blockKeycodeLeft) {
+        this.blockKeycodeLeft = blockKeycodeLeft;
+    }
+
+    public boolean isBlockKeycodeRight() {
+        return blockKeycodeRight;
+    }
+
+    public void setBlockKeycodeRight(boolean blockKeycodeRight) {
+        this.blockKeycodeRight = blockKeycodeRight;
+    }
+
+    public boolean isBlockKeycodeDown() {
+        return blockKeycodeDown;
+    }
+
+    public void setBlockKeycodeDown(boolean blockKeycodeDown) {
+        this.blockKeycodeDown = blockKeycodeDown;
+    }
+
+    public boolean isBlockKeycodeUp() {
+        return blockKeycodeUp;
+    }
+
+    public void setBlockKeycodeUp(boolean blockKeycodeUp) {
+        this.blockKeycodeUp = blockKeycodeUp;
+    }
+
     public void setFocusChangeListener(OnFocusChangeListener focusChangeListener) {
         this.focusChangeListener = focusChangeListener;
     }
 
+    public void setSelectPosition(int index) {
+        hasSetSelection = true;
+        this.mSelectedPosition = index;
+    }
+
     private void requestDefaultFocus(int direction) {
-        if ((direction == FOCUS_DOWN && getOrientation() == VERTICAL) || (direction == FOCUS_RIGHT && getOrientation() == HORIZONTAL)) {//如果焦点是从当前view的上方移动过来，则让第一个可focus的child获取焦点
-            for (int i = 0; i < getChildCount(); i++) {
-                View view = getChildAt(i);
-                if (view.isFocusable()) {
-                    mSelectedPosition = i;
-                    break;
+        Log.e("lhz", "View Tag:" + getTag() + "===" + "requestDefaultFocus---");
+        if (hasSetSelection) {
+            hasSetSelection = false;
+        } else {
+            if ((direction == FOCUS_DOWN && getOrientation() == VERTICAL) || (direction == FOCUS_RIGHT && getOrientation() == HORIZONTAL)) {//如果焦点是从当前view的上方移动过来，则让第一个可focus的child获取焦点
+                for (int i = 0; i < getChildCount(); i++) {
+                    View view = getChildAt(i);
+                    if (view.isFocusable()) {
+                        mSelectedPosition = i;
+                        break;
+                    }
+                }
+
+            } else if ((direction == FOCUS_UP && getOrientation() == VERTICAL) || (direction == FOCUS_LEFT && getOrientation() == HORIZONTAL)) {//如果焦点是从当前view的下方移动过来，则让最后一个可focus的child获取焦点
+                for (int i = getChildCount() - 1; i >= 0; i--) {
+                    View view = getChildAt(i);
+                    if (view.isFocusable()) {
+                        mSelectedPosition = i;
+                        break;
+                    }
                 }
             }
-
-        } else if ((direction == FOCUS_UP && getOrientation() == VERTICAL) || (direction == FOCUS_LEFT && getOrientation() == HORIZONTAL)) {//如果焦点是从当前view的下方移动过来，则让最后一个可focus的child获取焦点
-            for (int i = getChildCount() - 1; i >= 0; i--) {
-                View view = getChildAt(i);
-                if (view.isFocusable()) {
-                    mSelectedPosition = i;
-                    break;
+            if (mSelectedPosition < 0) {
+                for (int i = 0; i < getChildCount(); i++) {
+                    View view = getChildAt(i);
+                    if (view.isFocusable()) {
+                        mSelectedPosition = i;
+                        break;
+                    }
                 }
             }
         }
-
+        Log.e("lhz", "View Tag:" + getTag() + "===" + "mSelectedPosition---" + mSelectedPosition);
         if (mSelectedPosition < 0) {
-            for (int i = 0; i < getChildCount(); i++) {
-                View view = getChildAt(i);
-                if (view.isFocusable()) {
-                    mSelectedPosition = i;
-                    break;
-                }
+            if (blockDescendants) {
+                setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
             }
-        }
-        if (mSelectedPosition < 0) {
             return;
         }
         final View view = getChildAt(mSelectedPosition);
         if (view != null) {
             if (!hasFocus()) {
                 //模拟获取焦点
-                setDescendantFocusability(FOCUS_BEFORE_DESCENDANTS);
+                if (blockDescendants) {
+                    setDescendantFocusability(FOCUS_BEFORE_DESCENDANTS);
+                }
             }
 
             Log.e("lhz", "View Tag:" + getTag() + "===" + "requestDefaultFocus--child index:" + mSelectedPosition);
@@ -175,36 +246,20 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
 //                }
 //            }, 10);
 
-        }
-    }
-
-    @Override
-    public void onFocusChange(View v, final boolean hasFocus) {
-        Log.e("lhz", "View Tag:" + getTag() + "===" + "onFocusChange:view--" + v.getTag() + ",isViewFocused:" + hasFocus);
-        Log.e("lhz", "View Tag:" + getTag() + "===" + "onFocusChange:hasFocus():" + hasFocus());
-//        View view = findFocus();
-        if (hasFocus) {
-            for (int i = 0; i < getChildCount(); i++) {
-                View child = getChildAt(i);
-                if (v == child) {
-                    mSelectedPosition = i;
-                    break;
-                }
+        } else {
+            if (blockDescendants) {
+                setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
             }
-        }
-
-        //回调父类tvRecylerView中的onFocusChange方法
-        ViewParent parent = getParent();
-        if (parent instanceof View.OnFocusChangeListener) {
-            View.OnFocusChangeListener viewGroup = (View.OnFocusChangeListener) parent;
-            viewGroup.onFocusChange(v, hasFocus);
         }
     }
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
+        if (!blockDescendants) {
+            return super.dispatchKeyEvent(event);
+        }
         boolean result = super.dispatchKeyEvent(event);
-        Log.e("lhz", "View Tag:" + getTag() + "===" + "dispatchKeyEvent（）start：result=" + result);
+        Log.e("lhz", "View Tag:" + getTag() + "===" + "dispatchKeyEvent（）start：result=" + result + " ,event.getAction():" + event.getAction());
         if (!result) {
             switch (event.getAction()) {
                 case KeyEvent.ACTION_DOWN:
@@ -271,7 +326,9 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
             return true;
         } else {
             onMyFocusChanged(this, false);
-            setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
+            if (blockDescendants) {
+                setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
+            }
             return false;
         }
 //        return false;
@@ -312,12 +369,42 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
         }
     }
 
+    private View.OnFocusChangeListener onChildFocusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            Log.e("lhz", "View Tag:" + getTag() + "===" + "onFocusChange:view--" + v.getTag() + ",isViewFocused:" + hasFocus);
+            Log.e("lhz", "View Tag:" + getTag() + "===" + "onFocusChange:hasFocus():" + hasFocus());
+//        View view = findFocus();
+            if (hasFocus) {
+                for (int i = 0; i < getChildCount(); i++) {
+                    View child = getChildAt(i);
+                    if (v == child) {
+                        mSelectedPosition = i;
+                        break;
+                    }
+                }
+            }
+            if (focusChangeListener != null) {
+                focusChangeListener.onChildFocusChange(v, hasFocus);
+            }
+
+            //回调父类tvRecylerView中的onFocusChange方法
+            ViewParent parent = getParent();
+            if (parent instanceof View.OnFocusChangeListener) {
+                View.OnFocusChangeListener viewGroup = (View.OnFocusChangeListener) parent;
+                viewGroup.onFocusChange(v, hasFocus);
+            }
+        }
+    };
+
     public interface OnFocusChangeListener {
         /**
          * @param view     当前ChildFocusableLinearLayout容器
          * @param hasFocus 是否焦点在当前view容器内
          */
-        void onViewFocusChange(View view, boolean hasFocus);
+        boolean onMyFocusChange(View view, boolean hasFocus);
+
+        void onChildFocusChange(View view, boolean hasFocus);
     }
 
 }

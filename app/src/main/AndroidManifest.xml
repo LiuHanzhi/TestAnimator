@@ -20,7 +20,11 @@
 
         </activity>
         <activity android:name=".dispatchKeyEvent.FocusActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".rxjava.backpressure.BackPressureActivity">
 
@@ -39,12 +43,30 @@
 
         </activity>
         <activity android:name=".autoFocus2.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+        <activity android:name=".state_selected.MainActivity">
+
+        </activity>
+        <activity android:name=".spannable.MainActivity">
+
+        </activity>
+        <activity android:name=".autoFocus3.MainActivity">
+
+        </activity>
+        <activity android:name=".blurMask.MainActivity">
+
+        </activity>
+        <activity android:name=".animation2.MainActivity">
+
+        </activity>
+        <activity android:name=".animation3.MainActivity">
+
+        </activity>
+        <activity android:name=".constraint_layout.MainActivity">
+
+        </activity>
+
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package test.lhz.com.testanimator.autoFocus2;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -28,7 +29,7 @@ public class View1 extends LinearLayout {
         init();
     }
 
-    private void init(){
+    private void init() {
 //        setFocusable(true);
 ////        setFocusableInTouchMode(true);
 //        postDelayed(new Runnable() {
@@ -40,20 +41,26 @@ public class View1 extends LinearLayout {
     }
 
     @Override
+    public boolean requestFocus(int direction, Rect previouslyFocusedRect) {
+        Log.e("lhz", "View.getTag():" + getTag() + " ," + "View1---requestFocus");
+        return super.requestFocus(direction, previouslyFocusedRect);
+    }
+
+    @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        Log.e("lhz","View1---dispatchKeyEvent");
+        Log.e("lhz", getTag() + ":" + "View1---dispatchKeyEvent");
         return super.dispatchKeyEvent(event);
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.e("lhz","View1---onKeyDown");
+        Log.e("lhz", getTag() + " :" +"View1---onKeyDown");
         return super.onKeyDown(keyCode, event);
     }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        Log.e("lhz","View1---onKeyUp");
+        Log.e("lhz", getTag() + ":" +"View1---onKeyUp");
         return super.onKeyUp(keyCode, event);
     }
 }
