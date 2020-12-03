@@ -47,8 +47,6 @@
         </activity>
 
         <activity android:name=".networklogs.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
         </activity>
         <activity android:name=".blurMask.MainActivity">
