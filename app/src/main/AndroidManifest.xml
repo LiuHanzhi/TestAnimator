@@ -39,12 +39,27 @@
 
         </activity>
         <activity android:name=".autoFocus2.MainActivity">
+
+        </activity>
+
+        <activity android:name=".networklogs.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <receiver android:name=".networklogs.DeviceAdminReceiver" >
+            <meta-data android:name="android.app.device_admin"
+                android:resource="@xml/my_admin"/>
+            <intent-filter >
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
+            </intent-filter>
+        </receiver>
+
+
     </application>
 
 </manifest>

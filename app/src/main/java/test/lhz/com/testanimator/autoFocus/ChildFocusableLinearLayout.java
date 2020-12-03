@@ -189,7 +189,7 @@ public class ChildFocusableLinearLayout extends LinearLayout implements View.OnF
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         boolean result = super.dispatchKeyEvent(event);
-        Log.e("lhz", "View Tag:" + getTag() + "===" + "dispatchKeyEvent（）start：result=" + result);
+        Log.e("lhz", "View Tag:" + getTag() + "===" + "dispatchKeyEvent（）start：result=" + result + " ,event.getKeyCode:"+event.getKeyCode());
         if (!result) {
             switch (event.getAction()) {
                 case KeyEvent.ACTION_DOWN:
