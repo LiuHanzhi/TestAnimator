@@ -20,7 +20,11 @@
 
         </activity>
         <activity android:name=".dispatchKeyEvent.FocusActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".rxjava.backpressure.BackPressureActivity">
 
@@ -46,20 +50,19 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+        <activity android:name=".blurMask.MainActivity">
 
+        </activity>
+        <activity android:name=".animation2.MainActivity">
 
-        <receiver android:name=".networklogs.DeviceAdminReceiver" >
-            <meta-data android:name="android.app.device_admin"
-                android:resource="@xml/my_admin"/>
-            <intent-filter >
-                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
-            </intent-filter>
-        </receiver>
+        </activity>
+        <activity android:name=".animation3.MainActivity">
 
+        </activity>
+        <activity android:name=".constraint_layout.MainActivity">
 
+        </activity>
     </application>
 
 </manifest>

@@ -91,6 +91,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical"
             android:tag="ITEM_RIGHT_TOP"
             app:block_keycode_right="true"

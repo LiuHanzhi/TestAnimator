@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/middle"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:tag="MIDDLE"
+    app:block_descendants="true">
+
+    <test.lhz.com.testanimator.autoFocus3.MiddleChildView
+        android:id="@+id/middle_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:tag="MIDDLE_TOP"
+        app:block_keycode_up="true">
+
+        <include
+            layout="@layout/activity_main_autofocus_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <include
+            layout="@layout/activity_main_autofocus_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <include
+            layout="@layout/activity_main_autofocus_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </test.lhz.com.testanimator.autoFocus3.MiddleChildView>
+
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="5dp"
+        android:background="#ff0" />
+
+    <test.lhz.com.testanimator.autoFocus3.MiddleChildView
+        android:id="@+id/middle_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:tag="MIDDLE_BOTTOM"
+        app:block_keycode_down="true">
+
+        <include
+            layout="@layout/activity_main_autofocus_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <include
+            layout="@layout/activity_main_autofocus_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <include
+            layout="@layout/activity_main_autofocus_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </test.lhz.com.testanimator.autoFocus3.MiddleChildView>
+
+
+</merge>

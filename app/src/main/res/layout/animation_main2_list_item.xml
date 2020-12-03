@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_weight="1"
+        android:id="@+id/list_text1"
+        android:layout_width="0dp"
+        android:focusable="false"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:gravity="right"
+        android:background="@color/colorAccent"
+        android:lines="1"
+        android:text="这是右边1"
+        android:layout_marginRight="5dp"
+        android:textSize="40dp"/>
+    <TextView
+        android:layout_weight="1"
+        android:id="@+id/list_text2"
+        android:layout_width="0dp"
+        android:focusable="false"
+        android:background="@color/colorPrimary"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:gravity="right"
+        android:lines="1"
+        android:text="这是右边1"
+        android:textSize="40dp"/>
+
+</LinearLayout>
+
